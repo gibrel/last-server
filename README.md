@@ -10,16 +10,23 @@ $ npm i
 ```
 ## Running the app
 
+First of all, set the configurations files `.env` and `ormconfig.json`.
+
+Remember to install your `docker`.
+
 ```bash
-# development
-$ npm run start
+# start the postgres server within a docker image:
+$ npm run start:dev:db
 
-# watch mode
+# configure the db migrations
+$ npm run typeorm:migration:generate
+
+# run db migrations
+$ npm run typeorm:migration:run
+
+# seed database
+$ npm run start:dev:db:seed
+
+# finally start your server
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
-## License
-
-This project is [MIT licensed](LICENSE).
