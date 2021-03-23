@@ -8,11 +8,12 @@
 ```bash
 $ npm i
 ```
+Also remember to install `docker`.
+
 ## Running the app
 
-First of all, set the configurations files `.env` and `ormconfig.json`.
-
-Remember to install your `docker`.
+First of all, set the configurations files `.env` and `tsconfig.json` (`ormconfig.json` is overwriten with scripts).
+Then you can go:
 
 ```bash
 # start the postgres server within a docker image:
@@ -30,3 +31,14 @@ $ npm run start:dev:db:seed
 # finally start your server
 $ npm run start:dev
 ```
+
+Current default **adress:port** to watch is `localhost:3000`.
+Swagger can br acessed by `localhost:3000/docs`
+
+
+## TODO:
+
+ - Fix some errors in crud (swagger is there to show me the way);
+ - Add JTW layer of security and authorization;
+ - Conect with front;
+ 
