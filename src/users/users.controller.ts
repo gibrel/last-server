@@ -8,6 +8,10 @@ import { ApiTags } from '@nestjs/swagger';
 	model: {
 		type: User,
 	},
+	// dto: {
+	// 	create?: Type < any >,
+	// 	update?: Type < any >,
+	// },
 	params: {
 		roleId: {
 			field: 'roleId',

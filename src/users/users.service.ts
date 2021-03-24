@@ -25,4 +25,10 @@ export class UsersService extends TypeOrmCrudService<User> {
         }
         throw new HttpException('User with this cpf does not exist', HttpStatus.NOT_FOUND);
     }
+
+    // async create(user: User): Promise<any>
+    // {
+    //     return this.createOne(CrudRequest , user);
+    // }
+
 }
