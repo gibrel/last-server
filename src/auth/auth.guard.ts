@@ -9,6 +9,9 @@ import { getFeature, getAction } from "@nestjsx/crud";
 @Injectable()
 export class AuthGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
+
+        console.log("\n\n\t\t\tCan activate \n\n\n\n");
+
         const request = context.switchToHttp().getRequest();
         if (!request.headers.authorization) {
             return false;
@@ -18,6 +21,9 @@ export class AuthGuard implements CanActivate {
     }
 
     async validateToken(auth: string) {
+
+        console.log("\n\n\t\t\tValidating token \n\n\n\n");
+
         if (auth.split(' ')[0] !== 'Bearer') {
             throw new HttpException('Invalid token', HttpStatus.FORBIDDEN);
         }

@@ -8,6 +8,8 @@ import { User } from '../users/user.entity';
 // import { USER_REQUEST_KEY, USER_REQUEST_KEY_EXPIRE } from '../config/constants';
 import * as crypto from 'crypto';
 import { JwtService } from '@nestjs/jwt';
+import { configService } from '../config/config.service';
+import { ConnectionOptions, createConnection } from 'typeorm';
 
 @Injectable()
 export class AuthService {
@@ -31,6 +33,11 @@ export class AuthService {
 
     }
 
+    async getUserByEmailOrCpf(userData: string): Promise<any> {
+        const user = await this.usersService.getByEmail(userData);
+        return (user) ? user : await this.usersService.getByCpf(userData);
+    }
+
     async login(user: any) {
         const payload = { username: user.username, sub: user.userId };
         return {
@@ -38,53 +45,16 @@ export class AuthService {
         };
     }
 
-    // private async validate(userData: User): Promise<UserDTO> {
-    //     if (userData.email)
-    //         return await this.usersService.getByEmail(userData.email);
-    //     else
-    //         return await this.usersService.getByCpf(userData.cpf);
-    // }
+    public async register(newUser: User): Promise<any> {
+        if (!await this.getUserByEmailOrCpf(newUser.email) ||
+            !await this.getUserByEmailOrCpf(newUser.cpf)) {
+            //return this.usersService.createOne(newUser);
+            const options = { ...configService.getTypeOrmConfig() };
+            const connection = await createConnection(options as ConnectionOptions);
+            const usersRepo = connection.getRepository(User);
+            return await usersRepo.save(newUser);
+        }
+        return null;
+    }
 
-    // public async login(user: User): Promise<any | { status: number }> {
-    //     return this.validate(user).then(userData => {
-    //         if (!userData) {
-    //             return {
-    //                 status: HttpStatus.BAD_REQUEST,
-    //                 message: 'Invalid email/password',
-    //             };
-    //         }
-    //         const payload = { id: userData.id, cpf: userData.cpf, email: userData.email };
-    //         //const accessToken = jwt.sign(payload, process.env.SECRET, {
-    //         // expiresIn: process.env.EXPIRE,
-    //         const accessToken = jwt.sign(payload, USER_REQUEST_KEY, {
-    //             expiresIn: USER_REQUEST_KEY_EXPIRE,
-    //         });
-
-    //         return {
-    //             statusCode: HttpStatus.OK,
-    //             access_token: accessToken,
-    //             //expires_in: process.env.EXPIRE,
-    //             expires_in: USER_REQUEST_KEY_EXPIRE,
-    //             data: payload,
-    //         };
-    //     });
-    // }
-
-    // public async register(user: User): Promise<any> {
-    //     return this.usersService.create(user);
-    // }
-
-    // public static async authenticateUser(
-    //     user: { username: string, password: string }): Promise<User> {
-    //     let u: User;
-    //     u = await User.findOne({
-    //         select: ['id', 'cpf', 'password_hash'],
-    //         where: { username: user.username }
-    //     });
-    //     const passHash = crypto.createHmac('sha256', user.password).digest('hex');
-    //     if (u.password_hash === passHash) {
-    //         delete u.password_hash;
-    //         return u;
-    //     }
-    // }
 }
