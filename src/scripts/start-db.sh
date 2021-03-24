@@ -15,7 +15,9 @@ echo "echo stop & remove old docker [$SERVER] and starting new fresh instance of
 
 # wait for pg to start
 echo "sleep wait for pg-server [$SERVER] to start";
-sleep 5;
+# my rapsberry pi is slow, so sometimes it takes a sleep greater than 5
+# if you run in faster hardware you should be good with 3
+sleep 8;
 
 # create the db 
 echo "CREATE DATABASE $DB ENCODING 'UTF-8';" | docker exec -i $SERVER psql -U postgres
