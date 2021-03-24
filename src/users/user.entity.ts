@@ -6,6 +6,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { CrudValidationGroups } from "@nestjsx/crud";
+import * as crypto from 'crypto';
 
 import { Permission } from '../permissions/permission.entity';
 import { Role } from '../roles/role.entity';
@@ -49,8 +50,16 @@ export class User extends BaseEntity {
     @Column({ type: 'boolean', default: true })
     isActive: boolean;
 
-    @Column()
-    password: string;
+    @Column({
+        length: 250,
+        select: false,
+        name: 'password'
+    })
+    public password_hash: string;
+    set password(password: string) {
+        const passHash = crypto.createHmac('sha256', password).digest('hex');
+        this.password_hash = passHash;
+    }
 
     @Column({ nullable: false })
     roleId?: number;

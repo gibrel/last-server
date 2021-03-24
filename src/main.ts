@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { CrudConfigService } from '@nestjsx/crud';
-import { USER_REQUEST_KEY } from './constants';
+import { jwtConstants } from './config/constants';
 
 CrudConfigService.load({
   auth: {
-    property: USER_REQUEST_KEY,
+    property: jwtConstants.secret,
   },
   routes: {
   },
@@ -27,6 +27,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(process.env.PORT || 8080);
 }
 bootstrap();
