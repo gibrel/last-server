@@ -1,7 +1,7 @@
 ## Description
 
   A permission/role based project using:
-  <p>Nest, typeOrm, postgresql, swagger and docker</p>
+  <p>Nest, typeOrm, postgresql, swagger and docker.</p>
 
 ## Installation
 
@@ -32,13 +32,12 @@ $ npm run start:dev:db:seed
 $ npm run start:dev
 ```
 
-Current default **adress:port** to watch is `localhost:3000`.
-Swagger can br acessed by `localhost:3000/docs`
+Current default **{ADRESS}:{PORT}** default to watch is `localhost:8080`.
+Swagger can be acessed by `{ADRESS}:{PORT}/docs`.
 
 
 ## TODO:
 
  - Fix some errors in crud (swagger is there to show me the way);
  - Add JTW layer of security and authorization;
- - Conect with front;
- 
+ - Conect with front-end (yeah! A preaty React project!!!).
